@@ -30,7 +30,7 @@ app.post('/users', (req, res) => {
 })
 
 app.put('/users/:id', (req, res) => {
-    const userId = parseInt(req.params.id)
+    const userId = parseInt(req.params.id);
     const user = users.find(u => u.id === userId);
 
     if(user){
@@ -42,8 +42,17 @@ app.put('/users/:id', (req, res) => {
     }
 });
 
-app.delete('/users', (req, res) => {
-    res.send('Got a DELETE request')
+app.delete('/users/:id', (req, res) => {
+    const userId = parseInt(req.params.id);
+    const user = users.findIndex(u => u.id === userId);
+
+    if(user !== -1){
+        users.splice(user, 1);
+        res.status(200).send('User deleted sucessfully.');
+    } else {
+        res.status(404).send('User not found,');
+    }
+
 })
 
 app.listen(port, () => {
