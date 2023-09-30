@@ -29,9 +29,18 @@ app.post('/users', (req, res) => {
     // res.send('Got a POST request')
 })
 
-app.put('/users', (req, res) => {
-    res.send('Got a PUT request')
-})
+app.put('/users/:id', (req, res) => {
+    const userId = parseInt(req.params.id)
+    const user = users.find(u => u.id === userId);
+
+    if(user){
+        user.name = req.body.name || user.name;
+        user.age = req.body.age || user.age;
+        res.status(200).json(user);
+    } else {
+        res.status(404).send('User not found,');
+    }
+});
 
 app.delete('/users', (req, res) => {
     res.send('Got a DELETE request')
